@@ -2,12 +2,13 @@ package vedio.ffmpeg;
 
 /**
  * 转换视频格式为ts流
+ * 
  * @author Administrator
  *
  */
 public class ConvertVedio {
-	
-	public static void convertVedio(String inputPath){
+
+	public static void convertVedio(String inputPath) {
 		String ffmpegPath = getFfmpegPath();
 		String outputPath = getOutputPath(inputPath);
 		try {
@@ -15,7 +16,7 @@ public class ConvertVedio {
 		} catch (FFmpegException e) {
 			e.printStackTrace();
 		}
-		 
+
 	}
 
 	/**
@@ -36,6 +37,5 @@ public class ConvertVedio {
 	private static String getOutputPath(String inputPath) {
 		return inputPath.substring(0, inputPath.lastIndexOf(".")).toLowerCase() + ".ts";
 	}
-	
-	
+
 }

@@ -1,4 +1,5 @@
 package vedio.ffmpeg;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,25 +15,20 @@ public class FfmpegUtil {
 	/**
 	 * 将视频转换为ts流
 	 * 
-	 * @param ffmpegPath
-	 *            ffmpegPath bin路径
-	 * @param inputPath
-	 *            源文件路径
-	 * @param outputPath
-	 *            输出文件路径
+	 * @param ffmpegPath ffmpegPath bin路径
+	 * @param inputPath 源文件路径
+	 * @param outputPath 输出文件路径
 	 * @return
 	 */
-	public static Boolean ffmpeg(String ffmpegPath, String inputPath, String outputPath) throws FFmpegException{
- 
+	public static Boolean ffmpeg(String ffmpegPath, String inputPath, String outputPath) throws FFmpegException {
 		if (!checkfile(inputPath)) {
-			 throw new FFmpegException("文件格式不合法");
+			throw new FFmpegException("文件格式不合法");
 		}
 
 		int type = checkContentType(inputPath);
 		List<String> command = getFfmpegCommand(type, ffmpegPath, inputPath, outputPath);
 		if (null != command && command.size() > 0) {
 			return process(command);
-			 
 		}
 		return false;
 	}
@@ -40,8 +36,7 @@ public class FfmpegUtil {
 	/**
 	 * 检查视频的格式
 	 * 
-	 * @param inputPath
-	 *            源文件
+	 * @param inputPath 源文件
 	 * @return
 	 */
 	private static int checkContentType(String inputPath) {
@@ -59,13 +54,13 @@ public class FfmpegUtil {
 			return 1;
 		} else if (type.equals("mp4")) {
 			return 1;
-		} else if (type.equals("mkv")){
+		} else if (type.equals("mkv")) {
 			return 1;
-		}else if (type.equals("asf")) {
+		} else if (type.equals("asf")) {
 			return 0;
 		} else if (type.equals("flv")) {
 			return 0;
-		}else if (type.equals("rm")) {
+		} else if (type.equals("rm")) {
 			return 0;
 		} else if (type.equals("rmvb")) {
 			return 1;
@@ -92,28 +87,22 @@ public class FfmpegUtil {
 	 * 
 	 * @param command
 	 * @param dto
-	 * @throws FFmpegException 
+	 * @throws FFmpegException
 	 */
-	private static boolean process(List<String> command) throws FFmpegException{
-
+	private static boolean process(List<String> command) throws FFmpegException {
 		try {
-
 			if (null == command || command.size() == 0)
 				return false;
 			Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
-
 			new PrintStream(videoProcess.getErrorStream()).start();
-
 			new PrintStream(videoProcess.getInputStream()).start();
-
 			int exitcode = videoProcess.waitFor();
-			 
 			if (exitcode == 1) {
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			throw new FFmpegException("file upload failed",e);
+			throw new FFmpegException("file upload failed", e);
 		}
 
 	}
@@ -126,7 +115,7 @@ public class FfmpegUtil {
 	 * @param outputPath
 	 * @param dto
 	 * @return
-	 * @throws FFmpegException 
+	 * @throws FFmpegException
 	 */
 	private static List<String> getFfmpegCommand(int type, String ffmpegPath, String oldfilepath, String outputPath) throws FFmpegException {
 		List<String> command = new ArrayList<String>();
@@ -147,7 +136,7 @@ public class FfmpegUtil {
 			command.add("-f");
 			command.add("mpegts");
 			command.add(outputPath);
-		} else if(type==0){
+		} else if (type == 0) {
 			command.add(ffmpegPath + "\\ffmpeg");
 			command.add("-i");
 			command.add(oldfilepath);
@@ -170,7 +159,7 @@ public class FfmpegUtil {
 			command.add("-f");
 			command.add("mpegts");
 			command.add(outputPath);
-		}else{
+		} else {
 			throw new FFmpegException("不支持当前上传的文件格式");
 		}
 		return command;
