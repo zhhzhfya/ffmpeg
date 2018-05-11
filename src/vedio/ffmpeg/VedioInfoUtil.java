@@ -50,6 +50,8 @@ public class VedioInfoUtil {
 			if (coder.getCodecType() == ICodec.Type.CODEC_TYPE_VIDEO) {
 				System.out.println("视频宽度：" + coder.getWidth());
 				System.out.println("视频高度：" + coder.getHeight());
+				System.out.println("视频CodecTag：" + String.valueOf(coder.getCodecTagArray()));
+				System.out.println(coder.toString());
 			}
 		}
 	}
